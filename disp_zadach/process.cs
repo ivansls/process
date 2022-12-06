@@ -27,7 +27,12 @@ namespace disp_zadach
             if (wind == (int)window.Back)
             {
                 proc();
-                
+
+            }
+            else if (wind == (int)window.Enter)
+            {
+                dop_pos = men.position;
+                show_more_info(dop_pos);
             }
             else if (wind == (int)window.D)
             {
@@ -37,11 +42,7 @@ namespace disp_zadach
             {
                 delete();
             }
-            else if (wind == (int)window.Enter)
-            {
-                dop_pos = men.position;
-                show_more_info(dop_pos);
-            }
+            
         }
         
 
@@ -57,7 +58,7 @@ namespace disp_zadach
 
                 //p.Kill();
                 processList.Add(p);
-                Console.WriteLine("  " + Name_Proc[c] + " - " + p.Id);
+                Console.WriteLine("  " + Name_Proc[c] + " - " + p.WorkingSet64.ToString() + "мб");
                 c++;
                 
             }
@@ -95,7 +96,19 @@ namespace disp_zadach
 
         static void delete()
         {
-
+            List<string> query = Name_Proc.GroupBy(x => x)
+              .Where(g => g.Count() > 1)
+              .Select(y => y.Key)
+              .ToList();
+            int m = 0;
+            foreach (Process p in procList)
+            {
+                if (p.ProcessName.ToString() == "browser")
+                {
+                    p.Kill();
+                    m++;
+                }
+            }
         }
     }
 }
