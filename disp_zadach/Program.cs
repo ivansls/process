@@ -20,13 +20,41 @@ using disp_zadach;
 
 Menu menu = new Menu();
 
-
+int wind = 0;
+int www = 0;
 
 while (true)
 {
     ConsoleKeyInfo key = Console.ReadKey();
     Console.Clear();
-    process.proc();
-    menu.strelki(key);
-    
+
+    if (key.Key == ConsoleKey.D)
+    {
+        wind = 1;
+        process.menuuu(wind);
+    }
+    else if (key.Key == ConsoleKey.Delete)
+    {
+        wind = 2;
+        process.menuuu(wind);
+    }
+    else if (key.Key == ConsoleKey.Enter)
+    {
+        wind = 3;
+        www = 4;
+        process.menuuu(wind);
+    }
+    else if (key.Key == ConsoleKey.Backspace)
+    {
+        wind = 0;
+        www = 0;
+        
+    }
+    process.menuuu(wind);
+    if (www == 0)
+    {
+        menu.strelki(key);
+    }
+
+
 }
