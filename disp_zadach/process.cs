@@ -17,31 +17,26 @@ namespace disp_zadach
 {
     internal class process
     {
+        public static int pos = 0;
         static List<Process> processList = new List<Process>();
         static List<string> Name_Proc = new List<string> { };
-        static Process[] procList = Process.GetProcesses();
-        static Menu men = new Menu();
-        static int dop_pos;
-        public static void menuuu(int wind)
+        
+        //static Menu men = new Menu();
+        public static void menuuu(int wind, int www, int w2)
         {
+            
             if (wind == (int)window.Back)
             {
+                
                 proc();
+
 
             }
             else if (wind == (int)window.Enter)
             {
-                dop_pos = men.position;
-                show_more_info(dop_pos);
+                show_more_info(wind, www, w2);
             }
-            else if (wind == (int)window.D)
-            {
-                del(dop_pos);
-            }
-            else if (wind == (int)window.Del)
-            {
-                delete();
-            }
+            
             
         }
         
@@ -49,7 +44,7 @@ namespace disp_zadach
         static void proc()
         {
             int c = 0;
-            
+            Process[] procList = Process.GetProcesses();
             foreach (Process p in procList)
             {
 
@@ -64,42 +59,70 @@ namespace disp_zadach
             }
         }
 
-        static void show_more_info(int dop_pos)
+        static void show_more_info(int wind, int www, int w2)
         {
-            //Console.Clear();
+            Console.Clear();
             
             try
             {
-                Console.WriteLine("  " + processList[dop_pos].ProcessName + " " + processList[dop_pos].PagedMemorySize + " " + processList[dop_pos].StartTime + " " + processList[dop_pos].Id);
+                Console.WriteLine("  " + processList[pos].ProcessName + " " + processList[pos].PagedMemorySize + " " + processList[pos].StartTime + " " + processList[pos].Id);
             }
             catch { Console.WriteLine("Отказанно в доступе"); }
             finally
             {
                 Console.SetCursorPosition(0, 5);
                 Console.WriteLine("ГОТОВО");
+
+                ConsoleKeyInfo key = Console.ReadKey();
+                //Console.Clear();
+
+                if (key.Key == ConsoleKey.D)
+                {
+                    wind = 1;
+                    w2 = 0;
+                    del(pos);
+                    process.menuuu(wind, www, w2);
+                }
+                else if (key.Key == ConsoleKey.Delete)
+                {
+                    wind = 2;
+                    w2 = 0;
+                    delete(wind);
+                    process.menuuu(wind, www, w2);
+                }
+
+                else if (key.Key == ConsoleKey.Backspace)
+                {
+                    wind = 0;
+                    w2 = 1;
+                    www = 0;
+
+                }
             }
+
         }
 
-        static void del(int dop_pos)
+        private static void del(int wind)
         {
             try
             {
-                processList[dop_pos].Kill();
+                processList[pos].Kill();
             }
             catch { Console.WriteLine("Отказанно в доступе"); }
             finally
             {
-                Console.SetCursorPosition(0, 5);
-                Console.WriteLine("ГОТОВО");
+                wind = 3;
             }
+
+            //Console.WriteLine(pos);
         }
 
-        static void delete()
+        static void delete(int wind)
         {
-            List<string> query = Name_Proc.GroupBy(x => x)
+            /*List<string> query = Name_Proc.GroupBy(x => x)
               .Where(g => g.Count() > 1)
               .Select(y => y.Key)
-              .ToList();
+              .ToList();*//*
             int m = 0;
             foreach (Process p in procList)
             {
@@ -108,7 +131,17 @@ namespace disp_zadach
                     p.Kill();
                     m++;
                 }
+            }*/
+
+            foreach (Process p in processList)
+            {
+                if (p.ProcessName == processList[pos].ProcessName)
+                {
+                    p.Kill();
+
+                }
             }
+            wind = 3;
         }
     }
 }

@@ -22,35 +22,30 @@ Menu menu = new Menu();
 
 int wind = 0;
 int www = 0;
+int w2 = 1;
+int w3 = 0;
 
+process.menuuu(wind, www, w2);
 while (true)
 {
     ConsoleKeyInfo key = Console.ReadKey();
-    Console.Clear();
+    if (w2 == 1)
+    {
+        if (key.Key == ConsoleKey.Enter)
+        {
+            wind = 3;
+            www = 4;
+            process.menuuu(wind, www, w2);
+        }
+        else if (key.Key == ConsoleKey.Backspace)
+        {
+            wind = 0;
+            www = 0;
+            Console.Clear();
+            process.menuuu(wind, www, w2);
+        }
 
-    if (key.Key == ConsoleKey.D)
-    {
-        wind = 1;
-        process.menuuu(wind);
     }
-    else if (key.Key == ConsoleKey.Delete)
-    {
-        wind = 2;
-        process.menuuu(wind);
-    }
-    else if (key.Key == ConsoleKey.Enter)
-    {
-        wind = 3;
-        www = 4;
-        process.menuuu(wind);
-    }
-    else if (key.Key == ConsoleKey.Backspace)
-    {
-        wind = 0;
-        www = 0;
-        
-    }
-    process.menuuu(wind);
     if (www == 0)
     {
         menu.strelki(key);

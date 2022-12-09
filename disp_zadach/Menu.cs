@@ -16,12 +16,14 @@ namespace disp_zadach
             if (key.Key == ConsoleKey.UpArrow & position > 0)
             {
                 position--;
+                process.pos--;
                 Console.SetCursorPosition(0, (position + 1));
                 Console.WriteLine("  ");
             }
             else if (key.Key == ConsoleKey.DownArrow)
             {
                 position++;
+                process.pos++;
                 Console.SetCursorPosition(0, (position - 1));
                 Console.WriteLine("  ");
             }
@@ -30,5 +32,6 @@ namespace disp_zadach
 
 
         }
+
     }
 }
